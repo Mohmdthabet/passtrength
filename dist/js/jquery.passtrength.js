@@ -133,8 +133,8 @@
           input      =  jQuery("<input/>", {type: "text"}),
           passwordInput      = this;
 
-      buttonShow.appendTo($(this.element).closest(".passtrengthMeter"));
-      input.appendTo($(this.element).closest(".passtrengthMeter")).hide();
+      buttonShow.appendTo($(this.element).parent(".passtrengthMeter"));
+      input.appendTo($(this.element).parent(".passtrengthMeter")).hide();
 
       $(this.element).bind("keyup keydown", function() {
           input.val($(passwordInput.element).val());
