@@ -1,23 +1,22 @@
-/*
- *  passtrength - v1.0.0
- *  passtrength
- *  passtrength
- *
- *  Made by @adrisorribas
- *  Under MIT License
+/*!
+ * passtrength.js
+ * Original author: @adrisorribas
+ * Further changes, comments: @adrisorribas
+ * Licensed under the MIT license
  */
-;(function($, window, document, undefined) {
+;
+(function($, window, document, undefined) {
 
   var pluginName = "passtrength",
       defaults = {
         minChars: 8,
         passwordToggle: true,
         tooltip: true,
-        textWeak: "Weak",
-        textMedium: "Medium",
-        textStrong: "Strong",
-        textVeryStrong: "Very Strong",
-        eyeImg : "img/eye.svg"
+        textWeak: 'Weak',
+        textMedium: 'Medium',
+        textStrong: 'Strong',
+        textVeryStrong: 'Very Strong',
+        eyeImg : 'assets/brokerage/img/eye.svg'
       };
 
   function Plugin(element, options){
@@ -33,8 +32,8 @@
   Plugin.prototype = {
     init: function(){
       var _this    = this,
-          meter    = jQuery("<div/>", {class: "passtrengthMeter"}),
-          tooltip = jQuery("<div/>", {class: "tooltip", text: "Min " + this.options.minChars + " chars"});
+          meter    = jQuery('<div/>', {class: 'passtrengthMeter'}),
+          tooltip = jQuery('<div/>', {class: 'tooltip', text: 'Min ' + this.options.minChars + ' chars'})
 
       meter.insertAfter(this.element);
       $(this.element).appendTo(meter);
@@ -42,10 +41,10 @@
       if(this.options.tooltip){
         tooltip.appendTo(meter);
         var tooltipWidth = tooltip.outerWidth() / 2;
-        tooltip.css("margin-left", -tooltipWidth);
+        tooltip.css('margin-left', -tooltipWidth)
       }
 
-      this.$elem.bind("keyup keydown", function() {
+      this.$elem.bind('keyup keydown', function(event) {
           value = $(this).val();
           _this.check(value);
       });
@@ -60,11 +59,12 @@
       var secureTotal  = 0,
           chars        = 0,
           capitals     = 0,
+          lowers       = 0,
           numbers      = 0,
           special      = 0;
-          upperCase    = new RegExp("[A-Z]"),
-          numbers      = new RegExp("[0-9]"),
-          specialchars = new RegExp("([!,%,&,@,#,$,^,*,?,_,~])");
+          upperCase    = new RegExp('[A-Z]'),
+          numbers      = new RegExp('[0-9]'),
+          specialchars = new RegExp('([!,%,&,@,#,$,^,*,?,_,~])');
 
       if(value.length >= this.options.minChars){
         chars = 1;
@@ -95,31 +95,31 @@
     },
 
     addStatus: function(percentage){
-      var status = "",
-          text = "Min " + this.options.minChars + " chars",
-          meter = $(this.element).closest(".passtrengthMeter"),
-          tooltip = meter.find(".tooltip");
+      var status = '',
+          text = 'Min ' + this.options.minChars + ' chars',
+          meter = $(this.element).parent('.passtrengthMeter'),
+          tooltip = meter.find('.tooltip');
 
-      meter.attr("class", "passtrengthMeter");
+      meter.attr('class', 'passtrengthMeter');
 
       if(percentage >= 25){
-        meter.attr("class", "passtrengthMeter");
-        status = "weak";
+        meter.attr('class', 'passtrengthMeter');
+        status = 'weak';
         text = this.options.textWeak;
       }
       if(percentage >= 50){
-        meter.attr("class", "passtrengthMeter");
-        status = "medium";
+        meter.attr('class', 'passtrengthMeter');
+        status = 'medium';
         text = this.options.textMedium;
       }
       if(percentage >= 75){
-        meter.attr("class", "passtrengthMeter");
-        status = "strong";
+        meter.attr('class', 'passtrengthMeter');
+        status = 'strong';
         text = this.options.textStrong;
       }
       if(percentage >= 100){
-        meter.attr("class", "passtrengthMeter");
-        status = "very-strong";
+        meter.attr('class', 'passtrengthMeter');
+        status = 'very-strong';
         text = this.options.textVeryStrong;
       }
       meter.addClass(status);
@@ -129,30 +129,30 @@
     },
 
     togglePassword: function(){
-      var buttonShow = jQuery("<span/>", {class: "showPassword", html: "<img src="+ this.options.eyeImg +" />"}),
-          input      =  jQuery("<input/>", {type: "text"}),
+      var buttonShow = jQuery('<span/>', {class: 'showPassword', html: '<i class="fa fa-eye"></i>'}),
+          input      =  jQuery('<input/>', {type: 'text',class:'form-control'}),
           passwordInput      = this;
 
-      buttonShow.appendTo($(this.element).parent(".passtrengthMeter"));
-      input.appendTo($(this.element).parent(".passtrengthMeter")).hide();
+      buttonShow.appendTo($(this.element).parent('.passtrengthMeter'));
+      input.appendTo($(this.element).parent('.passtrengthMeter')).hide();
 
-      $(this.element).bind("keyup keydown", function() {
+      $(this.element).bind('keyup keydown', function(event) {
           input.val($(passwordInput.element).val());
       });
 
-      input.bind("keyup keydown", function() {
+      input.bind('keyup keydown', function(event) {
           $(passwordInput.element).val(input.val());
           value = $(this).val();
           _this.check(value);
       });
 
-      $(document).on("click", ".showPassword", function() {
-        buttonShow.toggleClass("active");
+      $(document).on('click', '.showPassword', function(e) {
+        buttonShow.toggleClass('active');
         input.toggle();
         $(passwordInput.element).toggle();
       });
     }
-  };
+  }
 
   $.fn[pluginName] = function(options) {
       return this.each(function() {
